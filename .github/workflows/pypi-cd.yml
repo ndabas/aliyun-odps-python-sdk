@@ -1,6 +1,7 @@
 name: PyODPS CD for PyPI
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - '*'
@@ -60,6 +61,7 @@ jobs:
           python setup.py sdist --formats=gztar --dist-dir=./wheelhouse
 
       - name: Release to pypi
+        if: ${{ github.event_name == 'tag' }}
         shell: bash
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USER }}
